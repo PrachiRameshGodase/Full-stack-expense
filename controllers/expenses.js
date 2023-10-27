@@ -54,14 +54,15 @@ exports.Editbooking = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const { epense, amount, description } = req.body;
+const { epense, amount, description } = req.body;
+        console.log(req.body)
         const Booking = await booking.findByPk(id)
 
         if (!Booking) {
             res.status(404).json({ error: "booking is not found" })
             return
         }
-        Booking.expense= epense;
+        Booking.epense= epense;
         Booking.amount = amount;
         Booking.description = description;
         await Booking.save()

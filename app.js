@@ -6,7 +6,7 @@ const app = express();
 const sequelize=require('./util/database')
 const router = express.Router();
 
-app.use(express.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 

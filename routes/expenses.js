@@ -14,7 +14,7 @@ router.get('/previous-bookings',appointmentController.getPreviousBookings)
 
 router.delete('/delete-booking/:id',appointmentController.deletebooking)
 
-router.put('/appointment/:id',appointmentController.Editbooking)
+router.put('/booking/:id',appointmentController.Editbooking)
 
 module.exports = router;
 

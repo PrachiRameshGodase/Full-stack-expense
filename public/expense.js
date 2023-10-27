@@ -54,7 +54,7 @@ form.addEventListener("submit", async (e) => {
     const response = await axios.post("http://localhost:3000/expense", obj)
    
 
-    console.log(response.data.appointmentDetail)
+    console.log(response.data.appointmentDetails)
     const appointmentDetails = response.data.appointmentDetails
 
     showUserOnScreen(appointmentDetails)
@@ -90,24 +90,24 @@ form.addEventListener("submit", async (e) => {
 // }
 
 
-// const clearInputFields = () => {
-//   document.getElementById("epense").value='';
-//   document.getElementById("amount").value='';
-//   document.getElementById("descripion").value='';
+const clearInputFields = () => {
+  document.getElementById("expense").value='';
+  document.getElementById("amount").value='';
+  document.getElementById("description").value='';
+}
 
-// }
 async function showUserOnScreen() {
   const itemList = document.getElementById("itemList");
   itemList.innerHTML="";
   const response=await axios.get("http://localhost:3000/previous-bookings")
   
-  const appointment=response.data.appointments;
-  console.log(appointment)
-  for(let i=0;i<appointment.length;i++){
-  const appoinment=appointment[i];
+  const appointments=response.data.appointments;
+  console.log(appointments)
+  for(let i=0;i<appointments.length;i++){
+  const appoinment=appointments[i];
 console.log(appoinment.id)
 
-console.log(appoinment.epense)
+console.log(appoinment.phonenumber)
   const li = document.createElement('li');
   li.id="li";
   const deletebtn = document.createElement('button')    //create delete button
@@ -127,25 +127,35 @@ console.log(appoinment.epense)
   editbtn.innerText = 'Edit'; 
   
   //add eventListener with arrow
-  const updatedData = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    phonenumber: document.getElementById('phone').value
-};
+  editbtn.onclick = async() => {
+    const updatedData = {
+      epense: document.getElementById('epense').value,
+      amount: document.getElementById('amount').value,
+      description: document.getElementById('description').value
+    };
+    
+  const response = await axios.put(`http://localhost:3000/booking/${appoinment.id}`, updatedData);
+  console.log(response.data.appointmentDetails);
 
-const response = await axios.put(`http://localhost:3000/booking/${appoinment.id}`, updatedData);
-console.log(response.data);
+    itemList.removeChild(li);
+    //populating userdetails
+    document.getElementById('epense').value = appoinment.epense;
+    document.getElementById('amount').value = appoinment.amount;
+    document.getElementById('description').value = appoinment.description;
+  }
   li.textContent = appoinment.epense + '-' + appoinment.amount + '-' + appoinment.description;
   li.appendChild(deletebtn) 
   li.appendChild(editbtn) 
   itemList.appendChild(li); 
 }
-// clearInputFields()
+
+clearInputFields()
 }
 //reload the all deatilsS
 document.addEventListener("DOMContentLoaded",async()=>{
   showUserOnScreen();
   
 })
+
 
 
